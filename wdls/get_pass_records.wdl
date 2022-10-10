@@ -39,11 +39,15 @@ task get_pass_records {
         bcftools view -f PASS "~{inputVCFgz}" > "~{vcfPrefix}.pass.vcf"
     >>>
 
+    Int diskGb = ceil(20.0 * size(inputVCFgz, "G"))
+
     runtime {
         docker : "szarate/t2t_variants"
-        disks : "local-disk 2500 SSD"
+        disks : "local-disk ${diskGb} SSD"
         memory: "4G"
         cpu : 2
+        preemptible: 3
+        maxRetries: 3
     }
 
     output {
@@ -59,7 +63,7 @@ task bgzip_bcftools_index {
     String vcfName = '~{basename(inputVCF)}'
 
     command <<<
-        bgzip -@ "$(nproc)" -c "~{inputVCF}" > "~{vcfName}.gz"
+        bgzip -c "~{inputVCF}" > "~{vcfName}.gz"
         bcftools index --threads "$(nproc)" "~{vcfName}.gz" -o "~{vcfName}.gz.csi"
     >>>
 
@@ -88,7 +92,7 @@ task bcftools_stats {
     String vcfName = '~{basename(inputVCFgz,".vcf.gz")}'
 
     command <<<
-        bcftools stats -v "~{inputVCFgz}" > "~{vcfName}.bcftools.stats.txt"
+        bcftools stats "~{inputVCFgz}" > "~{vcfName}.bcftools.stats.txt"
     >>>
 
     Int diskGb = ceil(2.0 * size(inputVCFgz, "G"))
