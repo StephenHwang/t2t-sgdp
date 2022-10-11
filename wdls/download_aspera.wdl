@@ -30,7 +30,7 @@ task downloadFileAspera {
 
     runtime {
         docker : "szarate/ascp"
-        disks : "local-disk 60 SSD"
+        disks : "local-disk 250 SSD"
         memory: "4G"
         cpu : 4
         preemptible: 3
