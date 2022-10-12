@@ -1,0 +1,11 @@
+entity:CHM13_SGDP_sample_subset_id	sample_accession	run_accession	fastq1	fastq2	sex	illumina_sample_id	sequencing_panel	sample_id_collaborator	sample_id_sgdp	population_id	region	country
+simons_data_sample_207	SAMEA3302867	ERR1625861			male	LP6005441-DNA_C06	C	HGDP00749	S_Japanese-1	Japanese	EastAsia	Japan
+simons_data_sample_306	SAMEA3449876	ERR1419092			male	LP6005441-DNA_A06	C	HGDP01153	S_Bergamo-1	Bergamo	WestEurasia	Italy(Bergamo)
+simons_data_sample_139	SAMEA3302784	ERR1395547			male	LP6005519-DNA_D01	C	TGBS21	S_Chane-1	Chane	America	Argentina
+simons_data_sample_12	SAMEA3302694	ERR1395582			male	LP6005619-DNA_C01	C	SAH41	S_Saharawi-2	Saharawi	Africa	Western Sahara (Morocco)
+simons_data_sample_22	SAMEA3302687	ERR1347716			male	LP6005443-DNA_E06	C	NA21581	S_Masai-2	Masai	Africa	Kenya
+simons_data_sample_186	SAMEA3302827	ERR1395573			female	LP6005592-DNA_D03	C	HGDP01314	S_Dai-1	Dai	EastAsia	China
+simons_data_sample_14	SAMEA3302780	ERR1395585			female	LP6005677-DNA_B01	C	ALB212	S_Albanian-1	Albanian	WestEurasia	Albania
+simons_data_sample_132	SAMEA3302709	ERR1395558			female	LP6005519-DNA_G02	C	Peru60	S_Quechua-3	Quechua	America	Peru
+simons_data_sample_11	SAMEA3302800	ERR1395572			female	LP6005592-DNA_C05	C	SA0722	S_Khomani_San-2	Khomani_San	Africa	SouthAfrica
+simons_data_sample_45	SAMEA3302886	ERR1347677			female	LP6005442-DNA_H10	C	HG02574	S_Gambian-2	Gambian	Africa	Gambia
