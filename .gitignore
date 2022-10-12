@@ -2,5 +2,10 @@
 .RData
 .Rhistory
 .Rproj.user
+.ipynb_checkpoints/
+.~lock*
+
 tmp/
 steps/
+archive/
+scratch/
