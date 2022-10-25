@@ -10,50 +10,30 @@ workflow t2t_alignment {
         Int dedupDistance = 100
     }
 
-    call splitIntoLanes as splitFQ1 {
-        input:
-            fastq = inputFastq1,
-            sampleName = sampleName
-    }
-
-    call splitIntoLanes as splitFQ2 {
-        input:
-            fastq = inputFastq2,
-            sampleName = sampleName
-    }
-
-    Array[Pair[File, File]] matchedLanes = zip(splitFQ1.fastqs, splitFQ2.fastqs)
+    # Array[Pair[File, File]] matchedLanes = zip(splitFQ1.fastqs, splitFQ2.fastqs)
     
-    scatter (pairedLanes in matchedLanes) {
-        call alignLane {
-            input:
-                read1 = pairedLanes.left,
-                read2 = pairedLanes.right,
-                targetRef = targetRef,
-                sampleName = sampleName,
-                bwaIndexTar = bwaIndexTar
-        }
-
-        call fixmateLane {
-            input:
-                bam = alignLane.bam
-        }
-
-        call sortBamLane {
-            input:
-                bam = fixmateLane.fmBam
-        }
+    call alignLane {
+        input:
+            read1 = inputFastq1,
+            read2 = inputFastq2,
+            targetRef = targetRef,
+            sampleName = sampleName,
+            bwaIndexTar = bwaIndexTar
     }
 
-    call gatherMergeBam {
+    call fixmateLane {
         input:
-            laneBams = sortBamLane.sortBam,
-            sampleName = sampleName
+            bam = alignLane.bam
+    }
+
+    call sortBamLane {
+        input:
+            bam = fixmateLane.fmBam
     }
 
     call markDuplicates {
         input:
-            bam = gatherMergeBam.mergedBam,
+            bam = sortBamLane.sortBam,
             sampleName = sampleName,
             dedupDistance = dedupDistance
     }
@@ -181,8 +161,8 @@ task alignLane {
     runtime {
         docker : "szarate/t2t_variants:v0.0.2"
         disks : "local-disk 1000 SSD"
-        memory: "64G"
-        cpu : 16
+        memory: "128"
+        cpu : 48
         preemptible: 3
         maxRetries: 3
     }
@@ -208,8 +188,8 @@ task fixmateLane {
     runtime {
         docker : "szarate/t2t_variants:v0.0.2"
         disks : "local-disk ${diskGb} SSD"
-        memory: "12G"
-        cpu : 16
+        memory: "24G"
+        cpu : 32
         preemptible: 3
         maxRetries: 3
     }
@@ -235,8 +215,8 @@ task sortBamLane {
     runtime {
         docker : "szarate/t2t_variants:v0.0.2"
         disks : "local-disk ${diskGb} SSD"
-        memory: "12G"
-        cpu : 16
+        memory: "24G"
+        cpu : 32
         preemptible: 3
         maxRetries: 3
     }
@@ -252,6 +232,7 @@ task gatherMergeBam {
         String sampleName
     }
 
+    # samtools merge -p -c -@ "$(nproc)" "~{sampleName}.merged.bam" ~{sep=' ' laneBams}
     command <<<
         samtools merge -@ "$(nproc)" "~{sampleName}.merged.bam" ~{sep=' ' laneBams}
     >>>
