@@ -161,7 +161,7 @@ task alignLane {
     runtime {
         docker : "szarate/t2t_variants:v0.0.2"
         disks : "local-disk 1000 SSD"
-        memory: "128"
+        memory: "128G"
         cpu : 48
         preemptible: 3
         maxRetries: 3
