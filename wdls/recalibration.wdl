@@ -131,7 +131,7 @@ task createSNPrecalibration {
             --max-gaussians 2
     >>>
 
-    Int diskGb = 5 + ceil(20.0 * size(VCF, "G"))
+    Int diskGb = 10 + ceil(20.0 * size(VCF, "G"))
 
     runtime {
         docker : "szarate/t2t_variants"
@@ -187,7 +187,7 @@ task createIndelRecalibration {
             --max-gaussians 1
     >>>
 
-    Int diskGb = 5 + ceil(20.0 * size(VCF, "G"))
+    Int diskGb = 10 + ceil(20.0 * size(VCF, "G"))
 
     runtime {
         docker : "szarate/t2t_variants"
@@ -229,7 +229,7 @@ task applySNPrecalibration {
             -truth-sensitivity-filter-level 99.8
     >>>
 
-    Int diskGb = 5 + ceil(20.0 * size(VCF, "G"))
+    Int diskGb = 10 + ceil(20.0 * size(VCF, "G"))
 
     runtime {
         docker : "szarate/t2t_variants"
@@ -270,7 +270,7 @@ task applyIndelRecalibration {
             -truth-sensitivity-filter-level 99.0
     >>>
 
-    Int diskGb = 5 + ceil(20.0 * size(VCF, "G"))
+    Int diskGb = 10 + ceil(20.0 * size(VCF, "G"))
 
     runtime {
         docker : "szarate/t2t_variants"
@@ -296,7 +296,7 @@ task finalizeVCF {
         tabix -p vcf "~{vcfName}.vcf.gz"
     >>>
 
-    Int diskGb = 5 + ceil(4.0 * size(VCF, "G"))
+    Int diskGb = 10 + ceil(4.0 * size(VCF, "G"))
 
     runtime {
         docker : "szarate/t2t_variants"
